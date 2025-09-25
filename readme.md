@@ -1,64 +1,86 @@
 
-### **Dremio: Menyatukan Lautan Data yang Terpisah**
+# Dremio: Bridging Data Silos
+
+### **Table of Contents**
+
+* **Background: Overcoming Data Silo Problems**
+    * What is Dremio?
+* **Chapter I: Unifying Relational with Relational**
+* **Chapter II: Exploring Log Data from MongoDB**
+* **Chapter III: Uniting Relational and Non-Relational Worlds**
+* **Conclusion**
 
 
-### **1. Terjebak dalam Silo Data**
+### **1. The Problem: Trapped in Data Silos**
 
-Bayangkan Anda seorang analis data yang harus membuat laporan penjualan. Data Anda tidak berada di satu tempat yang nyaman. Data transaksi penjualan ada di **MySQL**, sementara data detail pelanggan disimpan di **PostgreSQL**. Untuk mendapatkan gambaran lengkap tentang "siapa yang membeli apa," Anda harus menjalankan kueri yang rumit, bolak-balik antara dua sistem yang berbeda.
+Imagine you're a data analyst trying to create a sales report. Your data isn't in one single, convenient location. Transaction data is in **MySQL**, while customer details are stored in **PostgreSQL**. To get a full picture of "who bought what," you have to run complicated queries, switching between two different systems.
 
-Kemudian sedang data log activiy sales saat menggunakana aplikasi di database mongodb, membuat menjadikan nya semakin rumit untuk mengintegrasikan nya 
+To make things even more complicated, sales activity logs from an application are stored in a **MongoDB** database, making it even harder to integrate all the information.
 
-Ini adalah masalah klasik di dunia data: **silo data**. Data tersebar, terisolasi, dan tidak saling terhubung. Jalan keluar tradisionalnya adalah **ETL (Extract, Transform, Load)**—sebuah proses yang memakan waktu, dan membuat data Anda tidak *real-time*. Tim Anda harus menunggu untuk mendapatkan data yang sudah usang.
+This is a classic problem: **data silos**. Data is scattered, isolated, and disconnected. The traditional solution is **ETL (Extract, Transform, Load)**—a time-consuming process that often leaves your data out of date. You and your team have to wait for stale data.
 
-ditemukan  **Dremio**.
+Then, we discovered **Dremio**.
 
-### **2. Dremio, Jembatan Ajaib di Antara Data**
+-----
 
-Dremio bukanlah *data warehouse* atau database. Dremio adalah sebuah **mesin virtualisasi data** yang berfungsi sebagai jembatan cerdas di antara semua sumber data Anda. Tanpa perlu menyalin atau memindahkan data, Dremio menciptakan sebuah lapisan virtual yang menyatukan semuanya. Dremio memungkinkan untuk melakukan query data dari mana pun asalnya, seolah-olah semuanya sudah berada di satu tempat.
+### **2. Dremio, The Magic Bridge Between Your Data**
 
-Eksperimen ini dimulai dengan satu tujuan sederhana: **menggabungkan data pelanggan dari PostgreSQL dengan data transaksi dari MySQL secara *real-time***.
+Dremio isn't a data warehouse or a database. It's a **data virtualization engine** that acts as a smart bridge for all your data sources. Without needing to copy or move data, Dremio creates a virtual layer that unifies everything. It allows you to query data from anywhere, as if it all resides in one place.
 
-### **3. Menghubungkan Dua Dunia**
-
-Langkah pertama adalah memperkenalkan Dremio kepada kedua sumber data. membuka interface Dremio dan memilih konektor untuk **MySQL** dan **PostgreSQL**.
-
-memasukkan detail koneksi, dan dalam hitungan detik, Dremio berhasil terhubung. Di panel kiri, kami melihatnya: `MySQL - B2C Database` ,  `Postgres - Source Data - CRM`,  dan `MongoDB- Data Log`. Tiga silo yang terpisah kini berdampingan, seolah-olah mereka sudah berteman lama.
+![Screen Shoot](./design/architecture.jpg)
 
 
-### **4. Menyatukan Cerita dengan SQL**
+-----
 
-Sekarang, tiba saatnya untuk sihir yang sesungguhnya. Di dalam editor SQL Dremio,  menulis sebuah kueri sederhana. 
+### **3. Connecting the Worlds**
 
-**Data Sales Berdasarkan Customer**
+The first step was to introduce Dremio to our data sources. We opened the Dremio interface and selected the connectors for **MySQL**, **PostgreSQL**, and **MongoDB**.
 
-Kueri ini akan menggabungkan data transaksi (`sales_order` dari MySQL) dengan data pelanggan (`pelanggan` dari PostgreSQL) berdasarkan `id` pelanggan.
+![Screen Shoot](./ss/2.jpg)
+    
+![Screen Shoot](./ss/mutliple-con.jpg)
+
+![Screen Shoot](./ss/mutliple-con-2.jpg)
+
+
+After entering the connection details, Dremio was successfully connected in seconds. On the left panel, we saw them all: `MySQL - B2C Database`, `Postgres - Source Data - CRM`, and `MongoDB- Data Log`. Three separate silos were now side-by-side, as if they were long-time friends.
+
+-----
+
+### **4. Bringing the Story Together with SQL**
+
+Now, for the real magic. Inside Dremio's SQL editor, we wrote a few simple queries to combine our data.
+
+#### **4.1. Sales Data by Customer**
+
+![Screen Shoot](./design/dremio-data-sales-by-customer.jpg)
+
+This query joins transaction data (`sales_order` from MySQL) with customer details (`pelanggan` from PostgreSQL) based on the customer's `id`.
+
+![Screen Shoot](./ss/query-1.jpg)
 
 ```sql
-SELECT p.nama_depan, so.amount_sale, so.date_order from "MySQL - B2C Database".sbiz_opensource.sales_order as so 
-JOIN "Postgres - Source Data - CRM".public.pelanggan as p
-on so.client_id = p.pelanggan_id
+SELECT p.nama_depan, so.amount_sale, so.date_order
+FROM "MySQL - B2C Database".sbiz_opensource.sales_order AS so
+JOIN "Postgres - Source Data - CRM".public.pelanggan AS p
+ON so.client_id = p.pelanggan_id
 ```
 
-Dengan satu klik `Run`, Dremio melakukan keajaiban. Ia mengirimkan perintah tersebut ke kedua database, mengambil potongan data yang dibutuhkan, dan menggabungkannya di lapisan virtual Dremio.
+With a single click of `Run`, Dremio performed its magic. It sent the command to both databases, retrieved the necessary data, and combined it in Dremio's virtual layer.
 
 
-**4.1. Data Sales Berdasarkan Customer**
-
-Kueri ini akan menggabungkan data transaksi (`sales_order` dari MySQL) dengan data pelanggan (`pelanggan` dari PostgreSQL) berdasarkan `id` pelanggan.
-
-```sql
-SELECT p.nama_depan, so.amount_sale, so.date_order from "MySQL - B2C Database".sbiz_opensource.sales_order as so 
-JOIN "Postgres - Source Data - CRM".public.pelanggan as p
-on so.client_id = p.pelanggan_id
-```
-
-Dengan satu klik `Run`, Dremio melakukan keajaiban. Ia mengirimkan perintah tersebut ke kedua database, mengambil potongan data yang dibutuhkan, dan menggabungkannya di lapisan virtual Dremio.
+![Screen Shoot](./ss/query-2.jpg)
 
 
+#### **4.2. Log Activity by User**
 
-**4.2. Data Log Activity Sales**
+![Screen Shoot](./design/dremio-data-log-sales-activity.jpg)
 
-Kueri ini akan menggabungkan data transaksi sales (`memmber` dari MySQL) dengan data activiy user (`log_activity` dari Mongodb) berdasarkan `username`
+
+This query joins sales transaction data (`user` from MySQL) with user activity logs (`log_activity` from MongoDB) based on `username`.
+
+![Screen Shoot](./ss/query-log-user.jpg)
+
 
 ```sql
 SELECT l.*, u.username
@@ -67,12 +89,32 @@ INNER JOIN "MongoDB- Data Log"."microservice-log-activity-user".log_activity_use
 ON l.username = u.username
 ```
 
-Dengan satu klik `Run`, Dremio melakukan keajaiban. Ia mengirimkan perintah tersebut ke kedua database, mengambil potongan data yang dibutuhkan, dan menggabungkannya di lapisan virtual Dremio.
+Once again, with a single click, Dremio brought together data from two very different worlds—a relational database and a NoSQL database—and presented a unified view.
+
+![Screen Shoot](./ss/query-3.jpg)
 
 
+![Screen Shoot](./ss/query-log-user-2.jpg)
 
-### **Kesimpulan: Masa Depan Analisis Data**
+-----
 
-Eksperimen ini membuktikan bahwa **Dremio** bukan hanya alat, tetapi sebuah revolusi dalam cara kita bekerja dengan data. Kami berhasil memecahkan masalah silo data tanpa proses ETL yang membosankan. Dremio mengubah data yang terpisah menjadi satu sumber kebenaran yang konsisten, memberdayakan siapa pun untuk mengakses, menggabungkan, dan menganalisis data secara *real-time*.
+### **5. Running the Experiment with Docker Compose**
 
-Masa depan analisis data adalah tentang fleksibilitas dan kecepatan, dan Dremio adalah kuncinya.
+To replicate this environment, you can use Docker Compose. This file will set up a Dremio instance along with your databases, allowing you to run the same experiment locally.
+
+You can set up the environment with a simple command:
+
+```bash
+docker-compose up -d
+```
+
+![Screen Shoot](./ss/docker.jpg)
+
+
+-----
+
+### **Conclusion: The Future of Data Analytics**
+
+This experiment proves that **Dremio** is more than just a tool; it's a revolution in how we work with data. We successfully solved the data silo problem without tedious ETL processes. Dremio turns fragmented data into a single, consistent source of truth, empowering anyone to access, combine, and analyze data in real-time.
+
+The future of data analytics is about flexibility and speed, and Dremio is the key.
