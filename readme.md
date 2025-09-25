@@ -1,16 +1,22 @@
 
 # Dremio: Bridging Data Silos
 
+Imagine you're a data analyst trapped in a maze of fragmented data. Your company's transaction details live in a relational database, customer information is in another relational database, and user activity logs are in a NoSQL database. To get a complete picture, you face a classic problem: data silos, You need a better way. Then, you discover Dremio.
+
 ### **Table of Contents**
 
-**1. Background: Overcoming Data Silo Problems**
-**2. Dremio, The Magic Bridge Between Your Data**
-**3. Connecting the Worlds**
-**4. Bringing the Story Together with SQLs**
-**4. Chapter III: Uniting Relational and Non-Relational Worlds**
-**5. Export data**
-**6. Running the Experiment with Docker Compose**
-
+- [Dremio: Bridging Data Silos](#dremio-bridging-data-silos)
+    - [**Table of Contents**](#table-of-contents)
+    - [**1. The Problem: Trapped in Data Silos**](#1-the-problem-trapped-in-data-silos)
+    - [**2. Dremio, The Magic Bridge Between Your Data**](#2-dremio-the-magic-bridge-between-your-data)
+    - [**3. Connecting the Worlds**](#3-connecting-the-worlds)
+    - [**4. Bringing the Story Together with SQL**](#4-bringing-the-story-together-with-sql)
+      - [**4.1. Sales Data by Customer**](#41-sales-data-by-customer)
+      - [**4.2. Log Activity by User**](#42-log-activity-by-user)
+    - [**5. Running the Experiment with Docker Compose**](#5-running-the-experiment-with-docker-compose)
+    - [**6. Export Data**](#6-export-data)
+    - [**Exporting Dremio Query Results**](#exporting-dremio-query-results)
+    - [**7. Conclusion: The Future of Data Analytics**](#7-conclusion-the-future-of-data-analytics)
 
 ### **1. The Problem: Trapped in Data Silos**
 
@@ -104,7 +110,7 @@ docker-compose up -d
 ![Screen Shoot](./ss/docker.jpg)
 
 
-### **5. Export Data **
+### **6. Export Data**
 
 Based on your description, here is the information in English.
 
@@ -114,11 +120,7 @@ Dremio query results can be exported to various locations and formats, depending
 
 The results can be used for:
 * **Reporting:** The data is used to create dashboards and reports for business intelligence and analysis.
-* **Raw data for IT Training:** The data is used as a training dataset for machine learning models or other data science applications.
-
----
-
-### **Export Options and Destinations**
+* **Raw data for AI Training Data:** The data is used as a training dataset for machine learning models or other data science applications.
 
 Dremio provides several options for exporting your query results:
 
@@ -144,7 +146,7 @@ Dremio provides several options for exporting your query results:
     Dremio can also be integrated with other applications through various connectors or APIs. For example, you can use the **Apache Arrow Flight** protocol to efficiently export data to applications like Python for further analysis or data science workflows.
 
 
-### **6. Conclusion: The Future of Data Analytics**
+### **7. Conclusion: The Future of Data Analytics**
 
 This experiment proves that **Dremio** is more than just a tool; it's a revolution in how we work with data. We successfully solved the data silo problem without tedious ETL processes. Dremio turns fragmented data into a single, consistent source of truth, empowering anyone to access, combine, and analyze data in real-time.
 
