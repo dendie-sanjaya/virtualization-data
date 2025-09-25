@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  dremio:
+    image: dremio/dremio-oss:25.0.0
+    container_name: dremio-ce
+    ports:
+      - "9047:9047"  # Port UI Dremio
+      - "32010:32010" # Port koneksi JDBC/ODBC
+    volumes:
+      - dremio_data:/opt/dremio/data
+    environment:
+      - DREMIO_HEAP_SIZE_MB=2048 # Sesuaikan ukuran heap memory
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9047 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - dremio-network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_db
+    ports:
+      - "5432:5432"  # Tambahkan baris ini  
+    environment:
+      - POSTGRES_DB=dremio_test
+      - POSTGRES_USER=dremio_user
+      - POSTGRES_PASSWORD=dremio_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dremio-network
+
+networks:
+  dremio-network:
+    driver: bridge
+
+volumes:
+  dremio_data:
+  postgres_data:
