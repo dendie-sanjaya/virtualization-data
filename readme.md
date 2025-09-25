@@ -1,5 +1,5 @@
 
-# Dremio: Bridging Data Silos
+# Dremio: Bridging Data Silos - Virtualitation Data
 
 Imagine you're a data analyst trapped in a maze of fragmented data. Your company's transaction details live in a relational database, customer information is in another relational database, and user activity logs are in a NoSQL database. To get a complete picture, you face a classic problem: data silos, You need a better way. Then, you discover Dremio.
 
