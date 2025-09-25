@@ -3,12 +3,13 @@
 
 ### **Table of Contents**
 
-* **Background: Overcoming Data Silo Problems**
-    * What is Dremio?
-* **Chapter I: Unifying Relational with Relational**
-* **Chapter II: Exploring Log Data from MongoDB**
-* **Chapter III: Uniting Relational and Non-Relational Worlds**
-* **Conclusion**
+**1. Background: Overcoming Data Silo Problems**
+**2. Dremio, The Magic Bridge Between Your Data**
+**3. Connecting the Worlds**
+**4. Bringing the Story Together with SQLs**
+**4. Chapter III: Uniting Relational and Non-Relational Worlds**
+**5. Export data**
+**6. Running the Experiment with Docker Compose**
 
 
 ### **1. The Problem: Trapped in Data Silos**
@@ -21,7 +22,6 @@ This is a classic problem: **data silos**. Data is scattered, isolated, and disc
 
 Then, we discovered **Dremio**.
 
------
 
 ### **2. Dremio, The Magic Bridge Between Your Data**
 
@@ -29,8 +29,6 @@ Dremio isn't a data warehouse or a database. It's a **data virtualization engine
 
 ![Screen Shoot](./design/architecture.jpg)
 
-
------
 
 ### **3. Connecting the Worlds**
 
@@ -45,7 +43,6 @@ The first step was to introduce Dremio to our data sources. We opened the Dremio
 
 After entering the connection details, Dremio was successfully connected in seconds. On the left panel, we saw them all: `MySQL - B2C Database`, `Postgres - Source Data - CRM`, and `MongoDB- Data Log`. Three separate silos were now side-by-side, as if they were long-time friends.
 
------
 
 ### **4. Bringing the Story Together with SQL**
 
@@ -67,9 +64,6 @@ ON so.client_id = p.pelanggan_id
 ```
 
 With a single click of `Run`, Dremio performed its magic. It sent the command to both databases, retrieved the necessary data, and combined it in Dremio's virtual layer.
-
-
-![Screen Shoot](./ss/query-2.jpg)
 
 
 #### **4.2. Log Activity by User**
@@ -96,7 +90,6 @@ Once again, with a single click, Dremio brought together data from two very diff
 
 ![Screen Shoot](./ss/query-log-user-2.jpg)
 
------
 
 ### **5. Running the Experiment with Docker Compose**
 
@@ -111,9 +104,47 @@ docker-compose up -d
 ![Screen Shoot](./ss/docker.jpg)
 
 
------
+### **5. Export Data **
 
-### **Conclusion: The Future of Data Analytics**
+Based on your description, here is the information in English.
+
+### **Exporting Dremio Query Results**
+
+Dremio query results can be exported to various locations and formats, depending on your needs. This allows the processed data to be used for different purposes, from reporting to machine learning.
+
+The results can be used for:
+* **Reporting:** The data is used to create dashboards and reports for business intelligence and analysis.
+* **Raw data for IT Training:** The data is used as a training dataset for machine learning models or other data science applications.
+
+---
+
+### **Export Options and Destinations**
+
+Dremio provides several options for exporting your query results:
+
+1.  **Directly to BI Tools**
+    This is the most common use case. You can connect Dremio directly to your favorite BI tools to create dashboards and visualizations. Dremio provides native connectors for:
+    * **Tableau**
+    * **Microsoft Power BI**
+    * **Qlik**
+
+    ![Screen Shoot](./ss/jdbc.jpg)
+
+2.  **To File Storage**
+    You can save your query results as files in various formats and store them in your data lake or other file systems. The supported formats include:
+    * **JSON**: Ideal for semi-structured data.
+    * **CSV**: A universal format for data tables.
+    * **Parquet**: An optimized columnar storage format that is highly efficient for analytical queries.
+
+    These files can be stored in platforms like **Amazon S3, HDFS, Google Cloud Storage, or Azure Data Lake Storage**.
+
+    ![Screen Shoot](./ss/query-2.jpg)
+
+3.  **To Other Applications**
+    Dremio can also be integrated with other applications through various connectors or APIs. For example, you can use the **Apache Arrow Flight** protocol to efficiently export data to applications like Python for further analysis or data science workflows.
+
+
+### **6. Conclusion: The Future of Data Analytics**
 
 This experiment proves that **Dremio** is more than just a tool; it's a revolution in how we work with data. We successfully solved the data silo problem without tedious ETL processes. Dremio turns fragmented data into a single, consistent source of truth, empowering anyone to access, combine, and analyze data in real-time.
 
